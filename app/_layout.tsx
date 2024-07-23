@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 
 import { View } from 'react-native';
 import OnBoarding from "./(routes)/onboarding";
+import { Stack } from "expo-router";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,7 +48,11 @@ function RootLayoutNav() {
       {isLoggedIn ? (
         <View></View>
       ) : (
-        <OnBoarding/>
+        <Stack
+        screenOptions={{headerShown:false}}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(routes)/welcome-intro/index" />
+        </Stack>
       )}
     </>
   );
