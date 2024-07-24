@@ -28,30 +28,39 @@ export default function VerifyAccountScreen() {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.headerText}>Verification Code</Text>
-        <Text style={styles.subText}>We have sent the verification code to your email address</Text> 
-        <View style={styles.inputContainer}>
-            {code.map((_,index) => (
-                <TextInput
-                key={index}
-                style={styles.inputBox}
-                keyboardType="number-pad"
-                maxLength={1}
-                onChangeText={(text) => handleInput(text, index)}
-                value={code[index]}
-                ref={inputs.current[index]}
-                autoFocus={index === 0} 
-                />
-            ))}
-        </View>
-        <View style={{ marginTop: 10 }}>
-            <Button title="Submit" onPress={handleSumbit} />
-        </View>
+      <Text style={styles.headerText}>Verification Code</Text>
+      <Text style={styles.subText}>
+        We have sent the verification code to your email address
+      </Text>
+      <View style={styles.inputContainer}>
+        {code.map((_, index) => (
+          <TextInput
+            key={index}
+            style={styles.inputBox}
+            keyboardType="number-pad"
+            maxLength={1}
+            onChangeText={(text) => handleInput(text, index)}
+            value={code[index]}
+            ref={inputs.current[index]}
+            autoFocus={index === 0}
+          />
+        ))}
+      </View>
+      <View style={{ marginTop: 10 }}>
+        <Button title="Submit" onPress={handleSumbit} />
+      </View>
+      <View style={styles.loginLink}>
+        <Text style={[styles.backText, { fontFamily: "Nunito_700Bold" }]}>
+          Back To?
+        </Text>
         <TouchableOpacity onPress={() => router.back()}>
-            <Text style={{fontSize:20, paddingTop:20, fontWeight:"500"}}>Go back to sign in</Text>
+          <Text style={[styles.loginText, { fontFamily: "Nunito_700Bold" }]}>
+            Sign In
+          </Text>
         </TouchableOpacity>
+      </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
