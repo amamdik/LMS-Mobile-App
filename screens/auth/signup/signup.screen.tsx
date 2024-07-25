@@ -1,27 +1,41 @@
-import { View, Text, ScrollView, Image, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native' 
 import {
-    AntDesign,
-    Entypo,
-    FontAwesome,
-    Fontisto,
-    Ionicons,
-    SimpleLineIcons,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import {
+  AntDesign,
+  Entypo,
+  FontAwesome,
+  Fontisto,
+  Ionicons,
+  SimpleLineIcons,
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-    useFonts,
-    Raleway_700Bold,
-    Raleway_600SemiBold,
+  useFonts,
+  Raleway_700Bold,
+  Raleway_600SemiBold,
 } from "@expo-google-fonts/raleway";
 import {
-    Nunito_400Regular,
-    Nunito_500Medium,
-    Nunito_700Bold,
-    Nunito_600SemiBold,
+  Nunito_400Regular,
+  Nunito_500Medium,
+  Nunito_700Bold,
+  Nunito_600SemiBold,
 } from "@expo-google-fonts/nunito";
 import { useState } from "react";
-import { commonStyles } from '@/styles/common/common.styles';
+import { commonStyles } from "@/styles/common/common.styles";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import axios from "axios";
+import { SERVER_URI } from "@/utils/uri";
+import { Toast } from "react-native-toast-notifications";
 
 export default function SignUpScreen() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -49,42 +63,70 @@ export default function SignUpScreen() {
     return null;
   }
 
-  const handlePasswordValidation = (value:string) => {
+  const handlePasswordValidation = (value: string) => {
     const password = value;
     const passwordSpecialCharacter = /(?=.*[!@#$&*])/;
     const passwordOneNumber = /(?=.*[0-9])/;
     const passwordSixValue = /(?=.{6,})/;
 
     if (!passwordSpecialCharacter.test(password)) {
-        setError({
-          ...error,
-          password: "Write at least one special character",
-        });
-        setUserInfo({ ...userInfo, password: "" });
+      setError({
+        ...error,
+        password: "Write at least one special character",
+      });
+      setUserInfo({ ...userInfo, password: "" });
     } else if (!passwordOneNumber.test(password)) {
-        setError({
-          ...error,
-          password: "Write at least one number",
-        });
-        setUserInfo({ ...userInfo, password: "" });
+      setError({
+        ...error,
+        password: "Write at least one number",
+      });
+      setUserInfo({ ...userInfo, password: "" });
     } else if (!passwordSixValue.test(password)) {
-        setError({
-          ...error,
-          password: "Write at least 6 characters",
-        });
-        setUserInfo({ ...userInfo, password: "" });
+      setError({
+        ...error,
+        password: "Write at least 6 characters",
+      });
+      setUserInfo({ ...userInfo, password: "" });
     } else {
-        setError({
-          ...error,
-          password: "",
-        });
-        setUserInfo({ ...userInfo, password: value });
+      setError({
+        ...error,
+        password: "",
+      });
+      setUserInfo({ ...userInfo, password: value });
     }
   };
 
-  const handleSignIn = () => {
-    router.push("/(routes)/verifyAccount");
-  }
+  const handleSignIn = async () => {
+    setButtonSpinner(true);
+    await axios
+      .post(`${SERVER_URI}/registration`, {
+        name: userInfo.name,
+        email: userInfo.email,
+        password: userInfo.password,
+      })
+      .then(async (res) => {
+        await AsyncStorage.setItem(
+          "activation_token",
+          res.data.activationToken
+        );
+        Toast.show(res.data.message, {
+          type: "success",
+        });
+        setUserInfo({
+          name: "",
+          email: "",
+          password: "",
+        });
+        setButtonSpinner(false);
+        router.push("/(routes)/verifyAccount");
+      })
+      .catch((error) => {
+        setButtonSpinner(false);
+        Toast.show("Email already exist!", {
+          type: "danger",
+        });
+      });
+  };
 
   return (
     <LinearGradient
@@ -108,7 +150,7 @@ export default function SignUpScreen() {
               style={[styles.input, { paddingLeft: 40, marginBottom: -12 }]}
               keyboardType="default"
               value={userInfo.name}
-              placeholder="Amandi Keshala"
+              placeholder="shahriar sajeeb"
               onChangeText={(value) =>
                 setUserInfo({ ...userInfo, name: value })
               }
@@ -248,58 +290,58 @@ export default function SignUpScreen() {
 }
 
 const styles = StyleSheet.create({
-    signInImage: {
-        width: "60%",
-        height: 250,
-        alignSelf: "center",
-        marginTop: 50, 
-    },
-    welcomeText: {
-        textAlign: "center",
-        fontSize: 24,
-    },
-    learningText: {
-        textAlign: "center",
-        color: "#575757",
-        fontSize: 15,
-        marginTop: 5,
-    },
-    inputContainer: {
-        marginHorizontal: 16,
-        marginTop: 30,
-        rowGap: 30,
-    },
-    input: {
-        height: 55,
-        marginHorizontal: 16,
-        borderRadius: 8,
-        paddingLeft: 35,
-        fontSize: 16,
-        backgroundColor: "white",
-        color: "#A1A1A1",
-    },
-    visibleIcon: {
-        position: "absolute",
-        right: 30,
-        top: 15,
-    },
-    icon2: {
-        position: "absolute",
-        left: 23,
-        top: 17.8,
-        marginTop: -2,
-    },
-    forgotSection: {
-        marginHorizontal: 16,
-        textAlign: "right",
-        fontSize: 16,
-        marginTop: 10,
-    },
-    signupRedirect: {
-        flexDirection: "row",
-        marginHorizontal: 16,
-        justifyContent: "center",
-        marginBottom: 20,
-        marginTop: 20,
-    },
+  signInImage: {
+    width: "60%",
+    height: 250,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  welcomeText: {
+    textAlign: "center",
+    fontSize: 24,
+  },
+  learningText: {
+    textAlign: "center",
+    color: "#575757",
+    fontSize: 15,
+    marginTop: 5,
+  },
+  inputContainer: {
+    marginHorizontal: 16,
+    marginTop: 30,
+    rowGap: 30,
+  },
+  input: {
+    height: 55,
+    marginHorizontal: 16,
+    borderRadius: 8,
+    paddingLeft: 35,
+    fontSize: 16,
+    backgroundColor: "white",
+    color: "#A1A1A1",
+  },
+  visibleIcon: {
+    position: "absolute",
+    right: 30,
+    top: 15,
+  },
+  icon2: {
+    position: "absolute",
+    left: 23,
+    top: 17.8,
+    marginTop: -2,
+  },
+  forgotSection: {
+    marginHorizontal: 16,
+    textAlign: "right",
+    fontSize: 16,
+    marginTop: 10,
+  },
+  signupRedirect: {
+    flexDirection: "row",
+    marginHorizontal: 16,
+    justifyContent: "center",
+    marginBottom: 20,
+    marginTop: 20,
+  },
 });
