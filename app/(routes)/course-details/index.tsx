@@ -1,10 +1,7 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import CourseDetailScreen from "@/screens/home/course/course.details.screen";
 
 export default function index() {
   return (
-    <View>
-      <Text>index</Text>
-    </View>
+    <CourseDetailScreen />
   )
 }
