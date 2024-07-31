@@ -1,4 +1,5 @@
 import Ratings from "@/utils/ratings";
+import { FontAwesome } from "@expo/vector-icons";
 import { View, Text, Image } from "react-native";
 
 export default function ReviewCard({ item }: { item: ReviewType }) {
@@ -9,7 +10,7 @@ export default function ReviewCard({ item }: { item: ReviewType }) {
         source={{
           uri:
             item.user?.avatar?.url ||
-             "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png",
+            "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png",
         }}
       />
       <View style={{ marginHorizontal: 8, flex: 1 }}>

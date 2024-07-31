@@ -15,7 +15,7 @@ export default function CourseCard({ item }: { item: CoursesType }) {
           pathname: "/(routes)/course-details",
           params: { item: JSON.stringify(item) },
         })
-      } 
+      }
     >
       <View style={{ paddingHorizontal: 10 }}>
         <Image

@@ -138,7 +138,7 @@ export default function SearchInput({ homeScreen }: { homeScreen?: boolean }) {
   );
 }
 
-export const styles = StyleSheet.create({ 
+export const styles = StyleSheet.create({
   filteringContainer: {
     flexDirection: "row",
     alignItems: "center",
