@@ -21,6 +21,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^6.0.2",
+    "@stripe/stripe-react-native": "^0.38.3",
     "axios": "^1.7.2",
     "deprecated-react-native-prop-types": "^2.3.0",
     "expo": "~51.0.22",
