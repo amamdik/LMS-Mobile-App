@@ -65,6 +65,22 @@ function RootLayoutNav() {
             headerBackTitle: "Back",
           }}
         />
+        <Stack.Screen
+          name="(routes)/profile-details/index"
+          options={{
+            headerShown: true,
+            title: "Profile Details",
+            headerBackTitle: "Back",
+          }}
+        />
+        <Stack.Screen
+          name="(routes)/course-access/index"
+          options={{
+            headerShown: true,
+            title: "Course Lessons",
+            headerBackTitle: "Back",
+          }}
+        />
         </Stack>
     </ToastProvider>
   );
