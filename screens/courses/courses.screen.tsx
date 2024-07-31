@@ -72,7 +72,7 @@ export default function CoursesScreen() {
         (i: CoursesType) => i.categories === e
       );
       setCourses(filterCourses);
-    } 
+    }
   };
 
   return (

@@ -7,7 +7,7 @@ export default function useUser() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User>();
   const [error, setError] = useState("");
-  const [refetch, setRefetch] = useState(false);  
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     const subscription = async () => {

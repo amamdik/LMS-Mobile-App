@@ -150,7 +150,7 @@ export default function SignUpScreen() {
               style={[styles.input, { paddingLeft: 40, marginBottom: -12 }]}
               keyboardType="default"
               value={userInfo.name}
-              placeholder="Amandi Keshala"
+              placeholder="shahriar sajeeb"
               onChangeText={(value) =>
                 setUserInfo({ ...userInfo, name: value })
               }
